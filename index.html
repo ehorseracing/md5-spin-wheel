@@ -18,13 +18,27 @@
 </head>
 <body>
   <h1>JACKPOT</h1>
-  <div class="container">
-     <div class="wheel_box">
-      <canvas id="spinWheel"></canvas>
-      <button id="spin_btn">Spin</button>
-      <i class="fa-solid fa-location-arrow"></i>
-     </div> 
-    <div id="text"><p>Wheel Of Fortune</p></div>
+  <div>
+    <div class="container">
+      <div class="wheel_box">
+        <canvas id="spinWheel"></canvas>
+        <button id="spin_btn">Spin</button>
+        <i class="fa-solid fa-location-arrow"></i>
+      </div> 
+      <div id="text"><p>Wheel Of Fortune</p></div>
+    </div>
+    <div style="padding:12px;">
+      <textarea id="entries" name="entries" rows="24" cols="25">
+      </textarea>
+      <div style="color:yellow; font-weight:bold;">
+        <span>Time Used For Hash:</span>
+      </div>
+      <div style="background-color:yellow; color:blue; font-weight:bold; width:50%; max-width:175px;">
+        <span>n/a</span>
+      </div>
+      </div>
+    </div>
+
   </div>
   <!---------------  SCRIPT  --------------------->
   <script src="script.js"></script>  
