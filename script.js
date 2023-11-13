@@ -91,7 +91,7 @@ let spinChart = new Chart(spinWheel, {
 /* --------------- Display Value Based On The Angle --------------------- */
 const generateValue = (angleValue, listclean) => {
   p = -1;
-  alert(angleValue)
+  //alert(angleValue)
   for (let i of spinValues) {
 
     p = p + 1;
@@ -101,18 +101,18 @@ const generateValue = (angleValue, listclean) => {
       text.innerHTML =   winrez // + ' WINS!<br><br>SHA256: ' // + mysha + '<br><br>' + combome // winrez; // `<p>Congratulations, You Have Won ! </p>`;
       spinBtn.disabled = false;
 
-      if (angleValue == i.maxDegree)
-      {
-        alert('nudge - 1')
-        spinChart.options.rotation  = spinChart.options.rotation  - 1
-      }
+      //if (angleValue == i.maxDegree)
+      //{
+      //  alert('nudge - 1')
+      //  spinChart.options.rotation  = spinChart.options.rotation  - 1
+      //}
 
-      if ((angleValue == i.minDegree) || (angleValue == i.minDegree2))
-      {
-        alert('nudge + 1')
-        spinChart.options.rotation  = spinChart.options.rotation  + 1
-      }
-      alert(angleValue + 'a')
+      //if ((angleValue == i.minDegree) || (angleValue == i.minDegree2))
+      //{
+      //  alert('nudge + 1')
+      //  spinChart.options.rotation  = spinChart.options.rotation  + 1
+      //}
+      //alert(angleValue + 'a')
       break;
     }
   }
@@ -212,20 +212,20 @@ spinBtn.addEventListener("click", () => {
    // } else if (count > 12 && spinChart.options.plugins.datalabels.rotation  == randomDegree) {
       // alert('endnow')
       generateValue(randomDegree, winrez);
-      alert(randomDegree + 'b')
+      //(randomDegree + 'b')
       clearInterval(rotationInterval);
       count = 0;
-      alert('jump back')
+      //alert('jump back')
       //does a "late jump"?  this will hopefully correct it
       spinChart.options.rotation = spinChart.options.rotation - resultValue;
       resultValue = 11 ; // = 101;
-      alert(randomDegree + 'c')
+      //alert(randomDegree + 'c')
 
  
 
     }
   }, 25);
-  alert(randomDegree + 'd')
+  //alert(randomDegree + 'd')
 });
 /* --------------- End Spin Wheel  --------------------- */
 /* --------------- HASH AND STUFF --------------- */
@@ -285,6 +285,8 @@ function pickwinner(bigColors)
   //alert(rnum)
 
   rpick = Math.floor(rnum * (winangle[winner].maxDegree - winangle[winner].minDegree + 1)) + winangle[winner].minDegree;
+  
+  rpick = winangle[winner].goodAngle //   Math.floor(rnum * (winangle[winner].maxDegree - winangle[winner].minDegree + 1)) + winangle[winner].minDegree;
 
 
   //for (let i = 0; i < listclean.length; i++) {
@@ -431,11 +433,28 @@ function calcinfo(folks)
 
     }
 
+    
+    rangesize = Math.abs(firstangle - anglesum) 
+
+    goodangle = Math.floor(anglesum + rangesize / 2)
+
+    if (rangesize <= 5)
+    {
+      goodangle = anglesum + 1 //just being careful here for tight ranges due to late jump
+
+    }
+
+    if (goodangle < 0)
+    {
+      goodangle = 360 + goodangle
+    }
 
 
-    addme =  { minDegree: anglesum, maxDegree: firstangle, value : -1, minDegree2  : anglesum2,}
 
-    audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ',}'
+
+    addme =  { minDegree: anglesum, maxDegree: firstangle, value : -1, minDegree2  : anglesum2, goodAngle : goodangle}
+
+    audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ', goodAngle : ' +goodangle + '  }'
     audit.innerHTML = audit.innerHTML + audadd + '<br>'
 
     addmeconst = angleconstadd
