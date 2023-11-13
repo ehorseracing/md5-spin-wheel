@@ -18,9 +18,9 @@ var size = [30, 30, 30, 30,];
 /* --------------- Background Colors  --------------------- */
 
 var spinColors = [
-  "#E74C3C",
-  "#2E86C1",
-  "#138D75",
+  "#330000",
+  "#6666cc",
+  "#003300",
   "#F1C40F",
 
 
@@ -29,11 +29,85 @@ var spinColors = [
 
 
 var bigColors = [
-  "#E74C3C",
-  "#2E86C1",
-  "#138D75",
-  "#F1C40F",
-  "#D35400",
+  "#CC3300", // orange 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+
+  "#000000", // orange 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+
+  "#742802", // chestnut 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+
+  "#017371", // orange 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+
+  "#d90166", // orange 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+  
+  "#333333", // orange 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+
+  "#666666", // orange 
+  "#9999cc", // blue
+  "#660000", // red "#E74C3C",
+  "#F1C40F", // yellow
+  "#003300", // green
+  "#ff9999",
+  "#000066",
+  "#33cc33",
+  "#34013f",
+  "#ffab0f", 
+
+
+  
 
 ];
 
@@ -45,7 +119,7 @@ let spinChart = new Chart(spinWheel, {
   plugins: [ChartDataLabels],
   type: "pie",
   data: {
-    labels: ['SHA256', 'NON', 'RANDOM', 'SPINNER',  ],
+    labels: ['SHA256', 'NON', 'RANDOM', 'SPINNER',  ] ,
     datasets: [
       {
         backgroundColor: spinColors,
@@ -66,7 +140,8 @@ let spinChart = new Chart(spinWheel, {
       datalabels: {
        //  rotation: 90, // 90
        //  align : 45,
-        color: "#000000", // "#ffffff",
+       color : ['#ffffff' , '#000000'],
+       // fontColor: ['#000000'], // "#ffffff",
         formatter: (_, context) => context.chart.data.labels[context.dataIndex],
         font: { size: 12 },
         align : 'center',
@@ -100,6 +175,7 @@ const generateValue = (angleValue, listclean) => {
       // alert('a:' +angleValue+ ' | min '+i.minDegree + ' | max '+i.maxDegree + ' | min2 '+i.minDegree2 + ' | count '  + p )
       text.innerHTML =   winrez // + ' WINS!<br><br>SHA256: ' // + mysha + '<br><br>' + combome // winrez; // `<p>Congratulations, You Have Won ! </p>`;
       spinBtn.disabled = false;
+      //alert(winrez)
 
       //if (angleValue == i.maxDegree)
       //{
@@ -123,6 +199,7 @@ let resultValue = 11 //  101;
 spinBtn.addEventListener("click", () => {
   resultValue = 11 ;
   text.innerHTML = ``;
+  audit.innerHTML = ``;
   spinBtn.disabled = true;
 
   
@@ -137,14 +214,16 @@ spinBtn.addEventListener("click", () => {
   size = results[3]
   winrez = results[5]
   audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ',}'
-  audit.innerHTML = audit.innerHTML + 'winning angle - ' + rpick + '<br>'
+  // audit.innerHTML = audit.innerHTML + 'winning angle - ' + rpick + '<br>'
   // alert(size)
   // alert(rpick)
 
   spinValues = winangle;
   spinColors = wincolo; 
   spinChart.data.labels = listclean;
+  // spinChart.data.labels.fontColor = ['#ffffff'];
   spinChart.data.datasets.backgroundColor = wincolo;
+  //spinChart.data.datasets.fontColor = '#ffffff';
   spinChart.data.datasets.borderWidth = 0;
   spinChart.data.datasets.data = size;
   spinChart.options.rotation =  270 // 90 ; // 270; 
@@ -230,15 +309,64 @@ spinBtn.addEventListener("click", () => {
 /* --------------- End Spin Wheel  --------------------- */
 /* --------------- HASH AND STUFF --------------- */
 
+function cleantextbox()
+{
+  mydata = (document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
+  
+  
+  return mydata;
+}
+
+
+function sortByProperty(property){  
+  return function(a,b){  
+     if(a[property] > b[property])  
+        return 1;  
+     else if(a[property] < b[property])  
+        return -1;  
+ 
+     return 0;  
+  }  
+}
+
+
+
+function cleanlist()
+{
+  myarray =  cleantextbox(); //(document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
+  // myarray = myarray.split(',')
+  // alert(myarray)
+  myarray = removeDuplicates(myarray)
+  myarray = myarray.sort()
+
+  //alert(myarray)  
+  mystring = JSON.stringify(myarray).replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',')
+  // alert(mystring);
+  mystring =  mystring.replaceAll(',','\n');
+  document.getElementById("entries").value = mystring;
+  //alert(a);
+  
+
+}
+
 function pickwinner(bigColors)
 {
   const timehash = document.getElementById("timehash");
   d = new Date();
-  calctime = d.toLocaleTimeString()
-  calctime = d.toLocaleDateString() + ' ' + calctime
+
+  ss = d.getUTCSeconds() + '_' + d.getUTCMinutes() + '_' + d.getUTCHours() + '~'
+  ss = ss + d.getUTCDay() + '_' + d.getUTCMonth() + '_' + d.getUTCFullYear()
+
+  calctime = d.toLocaleDateString()
+  calctime = ss  // + ' ' + calctime
+  //calctime = d.toLocaleTimeString() + ' ' + calctime
+
+  
+
+
   timehash.innerHTML = calctime; 
   
-  a = (document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
+  a = cleantextbox() // (document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
   listclean = removeDuplicates(a)
   // alert(listclean)
 
@@ -343,7 +471,7 @@ function dosha(todo, addsalt,bigColors)
     if (winsha > mysha) {
       winner = i
       winsha = mysha
-      winrez = todo[i] + '(' + i + ') WINS!<br><br>SHA256: ' + mysha + '<br><br>' + combome
+      winrez = todo[i] + ' WINS!<br>SHA256: ' + mysha.substring(0,6) + '...<br><a target="' + mysha +'" href="https://emn178.github.io/online-tools/sha256.html?input_type=utf-8&input=sdfsdf&hmac_input_type=utf-8">Verify!</a><br>' + combome
 
     }
 
@@ -444,6 +572,13 @@ function calcinfo(folks)
 
     }
 
+    if (rangesize <= 3)
+    {
+      goodangle = anglesum + 0 //just being careful here for tight ranges due to late jump
+
+    }
+
+
     if (goodangle < 0)
     {
       goodangle = 360 + goodangle
@@ -455,7 +590,7 @@ function calcinfo(folks)
     addme =  { minDegree: anglesum, maxDegree: firstangle, value : -1, minDegree2  : anglesum2, goodAngle : goodangle}
 
     audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ', goodAngle : ' +goodangle + '  }'
-    audit.innerHTML = audit.innerHTML + audadd + '<br>'
+    // audit.innerHTML = audit.innerHTML + audadd + '<br>'
 
     addmeconst = angleconstadd
 
