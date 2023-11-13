@@ -61,11 +61,26 @@ let spinChart = new Chart(spinWheel, {
         display: false,
       },
       datalabels: {
-        rotation: 90, // 90
+       //  rotation: 90, // 90
        //  align : 45,
         color: "#000000", // "#ffffff",
         formatter: (_, context) => context.chart.data.labels[context.dataIndex],
-        font: { size: 15 },
+        font: { size: 12 },
+        align : 'center',
+
+        rotation: function(ctx) {
+          const valuesBefore = ctx.dataset.data.slice(0, ctx.dataIndex).reduce((a, b) => a + b, 0);
+          const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+          const rotation = ((valuesBefore + ctx.dataset.data[ctx.dataIndex] /2) /sum *360);
+          return rotation < 180 ? rotation-90 : rotation+90;
+        },
+        //formatter: function (value, context) {
+        //    return context.chart.data.labels[context.dataIndex];
+        //},
+
+
+
+
       },
     },
   },
@@ -121,7 +136,10 @@ spinBtn.addEventListener("click", () => {
   spinChart.data.labels = listclean;
   spinChart.data.datasets.backgroundColor = wincolo;
   spinChart.data.datasets.data = size;
-  spinChart.options.rotation =  270 // 90 ; // 270;   
+  spinChart.options.rotation =  270 // 90 ; // 270; 
+  // spinChart.options.plugins.datalabels.rotation = 270 + 45  
+  // spinChart.options.plugins.datalabels.rotation =  spinChart.options.rotation  // 90 ; // 270;   
+
   //  spinChart.options.plugins.datalabels.rotation =  0
   // alert(spinChart.data.labels )
   // alert(spinChart.data.datasets.data)
@@ -144,6 +162,17 @@ spinBtn.addEventListener("click", () => {
 
     // spinChart.data.labels[0] = spinChart.options.rotation
     spinChart.options.rotation = spinChart.options.rotation + resultValue;
+
+
+    spinChart.options.plugins.datalabels.rotation = function(ctx) {
+     const valuesBefore = ctx.dataset.data.slice(0, ctx.dataIndex).reduce((a, b) => a + b, 0);
+     const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+     const rotation = spinChart.options.rotation + ((valuesBefore + ctx.dataset.data[ctx.dataIndex] /2) /sum *360);
+     return rotation-90;
+    };
+
+
+    // spinChart.options.plugins.datalabels.rotation =   spinChart.options.rotation // - spinChart.data.datasets.y*0 // spinChart.options.rotation +  // + spinChart.options.plugins.datalabels.rotation  // 90 ; // 270;   
     //spinChart.options.plugins.datalabels.rotation =    spinChart.options.plugins.datalabels.rotation + resultValue;    
     spinChart.update();
     if (spinChart.options.rotation > 360) {
@@ -378,7 +407,9 @@ function calcinfo(folks)
 
     addmeconst = angleconstadd
 
-    myconst.push(addmeconst)
+    amc =  addmeconst // {x: 'howdy', y: addmeconst}
+    //myconst.push(addmeconst)
+    myconst.push(amc)
     myangles.push(addme)
 
     if (anglesum <= 0)
@@ -402,6 +433,11 @@ function calcinfo(folks)
   return [myconst,  myangles]
 }
 
+function testangle()
+{
+
+
+}
 
 
 
@@ -474,8 +510,9 @@ function calcinfo_old(folks)
     addme =  { minDegree: anglemin, maxDegree: anglesum, value : -1}
     addmeconst = angleconstadd
 
-
-    myconst.push(addmeconst)
+    amc = {x: 'howdy', y: addmeconst}
+    //myconst.push(addmeconst)
+    //myconst.push(addmeconst)
     myangles.push(addme)
 
     anglesum = anglesum + 1
