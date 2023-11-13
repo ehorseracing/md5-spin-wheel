@@ -3,6 +3,7 @@ var spinWheel = document.getElementById("spinWheel");
 var spinBtn = document.getElementById("spin_btn");
 var text = document.getElementById("text");
 
+
 /* --------------- Minimum And Maximum Angle For A value  --------------------- */
 var spinValues = [
   { minDegree: 1, maxDegree: 90, value: 100 },
@@ -49,6 +50,8 @@ let spinChart = new Chart(spinWheel, {
       {
         backgroundColor: spinColors,
         data: size,
+        borderWidth:0,
+        position: 'right'
       },
     ],
   },
@@ -87,35 +90,41 @@ let spinChart = new Chart(spinWheel, {
 });
 /* --------------- Display Value Based On The Angle --------------------- */
 const generateValue = (angleValue, listclean) => {
-  
+  p = -1;
+  alert(angleValue)
   for (let i of spinValues) {
 
-
-
+    p = p + 1;
     if ((angleValue >= i.minDegree && angleValue <= i.maxDegree) ||  (angleValue >= i.minDegree2 && i.minDegree < 0)) {
+
+      // alert('a:' +angleValue+ ' | min '+i.minDegree + ' | max '+i.maxDegree + ' | min2 '+i.minDegree2 + ' | count '  + p )
       text.innerHTML =   winrez // + ' WINS!<br><br>SHA256: ' // + mysha + '<br><br>' + combome // winrez; // `<p>Congratulations, You Have Won ! </p>`;
       spinBtn.disabled = false;
 
       if (angleValue == i.maxDegree)
       {
+        alert('nudge - 1')
         spinChart.options.rotation  = spinChart.options.rotation  - 1
       }
 
       if ((angleValue == i.minDegree) || (angleValue == i.minDegree2))
       {
+        alert('nudge + 1')
         spinChart.options.rotation  = spinChart.options.rotation  + 1
       }
-
+      alert(angleValue + 'a')
       break;
     }
   }
 };
 /* --------------- Spinning Code --------------------- */
 let count = 0;
-let resultValue = 21 //  101;
+let resultValue = 11 //  101;
 spinBtn.addEventListener("click", () => {
-
+  resultValue = 11 ;
+  text.innerHTML = ``;
   spinBtn.disabled = true;
+
   
   results = pickwinner(bigColors);
   // [rpick, listclean, winangle, winconst]
@@ -127,7 +136,8 @@ spinBtn.addEventListener("click", () => {
   // alert(results[3])
   size = results[3]
   winrez = results[5]
-
+  audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ',}'
+  audit.innerHTML = audit.innerHTML + 'winning angle - ' + rpick + '<br>'
   // alert(size)
   // alert(rpick)
 
@@ -135,6 +145,7 @@ spinBtn.addEventListener("click", () => {
   spinColors = wincolo; 
   spinChart.data.labels = listclean;
   spinChart.data.datasets.backgroundColor = wincolo;
+  spinChart.data.datasets.borderWidth = 0;
   spinChart.data.datasets.data = size;
   spinChart.options.rotation =  270 // 90 ; // 270; 
   // spinChart.options.plugins.datalabels.rotation = 270 + 45  
@@ -147,12 +158,13 @@ spinBtn.addEventListener("click", () => {
     {
       backgroundColor: wincolo,
       data: size,
+      borderWidth : 0,
     },
   ]
   spinChart.update(); 
 
 
-  text.innerHTML = `<p>Best Of Luck!</p>`;
+  text.innerHTML = ``;
   let randomDegree = rpick /* Math.floor(Math.random() * (355 - 0 + 1) + 0); */
   if (randomDegree == 360)
   {
@@ -161,6 +173,8 @@ spinBtn.addEventListener("click", () => {
   let rotationInterval = window.setInterval(() => {
 
     // spinChart.data.labels[0] = spinChart.options.rotation
+
+
     spinChart.options.rotation = spinChart.options.rotation + resultValue;
 
 
@@ -168,6 +182,7 @@ spinBtn.addEventListener("click", () => {
      const valuesBefore = ctx.dataset.data.slice(0, ctx.dataIndex).reduce((a, b) => a + b, 0);
      const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
      const rotation = spinChart.options.rotation + ((valuesBefore + ctx.dataset.data[ctx.dataIndex] /2) /sum *360);
+
      return rotation-90;
     };
 
@@ -175,9 +190,16 @@ spinBtn.addEventListener("click", () => {
     // spinChart.options.plugins.datalabels.rotation =   spinChart.options.rotation // - spinChart.data.datasets.y*0 // spinChart.options.rotation +  // + spinChart.options.plugins.datalabels.rotation  // 90 ; // 270;   
     //spinChart.options.plugins.datalabels.rotation =    spinChart.options.plugins.datalabels.rotation + resultValue;    
     spinChart.update();
+    //if (spinChart.options.rotation == randomDegree)
+   // {
+    // alert('spin - ' + count +',' + spinChart.options.rotation+ ', ' + randomDegree)
+   // }
+
+
     if (spinChart.options.rotation > 360) {
    // if (spinChart.options.plugins.datalabels.rotation > 360) {
       count += 1;
+      // alert(count + ' | ' + spinChart.options.rotation)
       resultValue  -= 2;
       if (resultValue < 1)
       {
@@ -185,14 +207,25 @@ spinBtn.addEventListener("click", () => {
       }
       spinChart.options.rotation  = 0 // - 360 // 0;
    //   spinChart.options.plugins.datalabels.rotation  =0
-    } else if (count > 11 && spinChart.options.rotation == randomDegree) {
+
+    } else if (count > 5 && spinChart.options.rotation == randomDegree) {
    // } else if (count > 12 && spinChart.options.plugins.datalabels.rotation  == randomDegree) {
+      // alert('endnow')
       generateValue(randomDegree, winrez);
+      alert(randomDegree + 'b')
       clearInterval(rotationInterval);
       count = 0;
-      resultValue = 21 ; // = 101;
+      alert('jump back')
+      //does a "late jump"?  this will hopefully correct it
+      spinChart.options.rotation = spinChart.options.rotation - resultValue;
+      resultValue = 11 ; // = 101;
+      alert(randomDegree + 'c')
+
+ 
+
     }
-  }, 10);
+  }, 25);
+  alert(randomDegree + 'd')
 });
 /* --------------- End Spin Wheel  --------------------- */
 /* --------------- HASH AND STUFF --------------- */
@@ -400,10 +433,10 @@ function calcinfo(folks)
 
 
 
-    addme =  { minDegree: anglesum, maxDegree: firstangle, value : -1, maxDegree2  : anglesum2,}
+    addme =  { minDegree: anglesum, maxDegree: firstangle, value : -1, minDegree2  : anglesum2,}
 
-    // alert('{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', maxDegree2  : ' + anglesum2 + ',}')
-
+    audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ',}'
+    audit.innerHTML = audit.innerHTML + audadd + '<br>'
 
     addmeconst = angleconstadd
 
@@ -433,11 +466,6 @@ function calcinfo(folks)
   return [myconst,  myangles]
 }
 
-function testangle()
-{
-
-
-}
 
 
 

@@ -39,8 +39,8 @@ h1 {
   transform: translate(-50%, -50%);
   top: 35%;
   left: 50%;
-  padding: 3rem; 
-  border-radius: 1rem;
+  padding: 3; 
+  border-radius: 1;
 }
 .wheel_box {
   position: relative; 
@@ -74,7 +74,7 @@ h1 {
   top: -8%;
   left: 43.7%;
   font-size: 4rem;
-  border : 2;
+  border : 1;
   border-color : black;
   color: var(--green_color);
   transform: rotate(-225deg);
