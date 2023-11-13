@@ -355,7 +355,7 @@ function pickwinner(bigColors)
   d = new Date();
 
   ss = d.getUTCSeconds() + '_' + d.getUTCMinutes() + '_' + d.getUTCHours() + '~'
-  ss = ss + d.getUTCDay() + '_' + d.getUTCMonth() + '_' + d.getUTCFullYear()
+  ss = ss + (d.getUTCDate()) + '_' + (1+d.getUTCMonth()) + '_' + d.getUTCFullYear()
 
   calctime = d.toLocaleDateString()
   calctime = ss  // + ' ' + calctime
