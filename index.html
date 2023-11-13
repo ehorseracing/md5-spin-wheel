@@ -17,19 +17,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script> 
 </head>
 <body>
-  <h1>JACKPOT</h1>
+  <h1>SPIN THE D!#@ WHEEL!</h1>
+
   <div>
     <div class="container">
+      <br>
       <div class="wheel_box">
         <canvas id="spinWheel"></canvas>
         <button id="spin_btn">Spin</button>
         <i class="fa-solid fa-location-arrow"></i>
       </div> 
-      <div id="text"><p>Wheel Of Fortune</p></div>
+
     </div>
     <div style="padding:12px;">
-      <textarea id="entries" name="entries" rows="24" cols="25">
-      </textarea>
+      <textarea id="entries" name="entries" rows="24" cols="25"></textarea>
       <div style="color:yellow; font-weight:bold;">
         <span>Javascript Hash:</span>
       </div>
@@ -40,6 +41,7 @@
     </div>
 
   </div>
+  <div id="text"></div>
   <!---------------  SCRIPT  --------------------->
   <script src="sha256.js"></script>  
   <script src="script.js"></script>  

@@ -6,7 +6,7 @@
     /* Colors */ 
     --white_color : rgb(255, 255, 255);
     --gold_color: rgb(255, 215, 0);
-    --green_color: rgb(45, 252, 26);
+    --green_color: rgb(177, 111,177 );
     --body_background: linear-gradient(to right, #141e30, #243b55);
     --spin_background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
@@ -24,7 +24,7 @@ body {
 /*-----------------  Styling Start  -----------------*/
 h1 {
   position: absolute;
-  font-size: 4rem;
+  font-size: 2rem;
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -37,13 +37,13 @@ h1 {
   max-height: 90vh;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 50%;
+  top: 35%;
   left: 50%;
   padding: 3rem; 
   border-radius: 1rem;
 }
 .wheel_box {
-  position: relative;
+  position: relative; 
   width: 100%;
   height: 100%;
 }
@@ -74,6 +74,8 @@ h1 {
   top: -8%;
   left: 43.7%;
   font-size: 4rem;
+  border : 2;
+  border-color : black;
   color: var(--green_color);
   transform: rotate(-225deg);
 }

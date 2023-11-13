@@ -1,20 +1,19 @@
 /* --------------- Spin Wheel  --------------------- */
-const spinWheel = document.getElementById("spinWheel");
-const spinBtn = document.getElementById("spin_btn");
-const text = document.getElementById("text");
+var spinWheel = document.getElementById("spinWheel");
+var spinBtn = document.getElementById("spin_btn");
+var text = document.getElementById("text");
 
 /* --------------- Minimum And Maximum Angle For A value  --------------------- */
-const spinValues = [
-  { minDegree: 61, maxDegree: 90, value: 100 },
-  { minDegree: 31, maxDegree: 60, value: 200 },
-  { minDegree: 0, maxDegree: 30, value: 300 },
-  { minDegree: 301, maxDegree: 360, value: 400 },
-  { minDegree: 241, maxDegree: 300, value: 500 },
-  { minDegree: 91, maxDegree: 240, value: 600 },
+var spinValues = [
+  { minDegree: 1, maxDegree: 90, value: 100 },
+  { minDegree: 270, maxDegree: 360, value: 200 },
+  { minDegree: 181, maxDegree: 270, value: 300 },
+  { minDegree: 91, maxDegree: 180, value: 400 },
+
 
 ];
 /* --------------- Size Of Each Piece  --------------------- */
-const size = [10, 10, 10, 20, 20, 50];
+var size = [30, 30, 30, 30,];
 /* --------------- Background Colors  --------------------- */
 
 var spinColors = [
@@ -22,26 +21,18 @@ var spinColors = [
   "#2E86C1",
   "#138D75",
   "#F1C40F",
-  "#D35400",
-  "#138D75",
+
 
 
 ];
 
 
 var bigColors = [
-  "#FF0000" ,
-  "#80FF00" ,
-  "#00FFFF" ,
-  "#8000FF" ,
-  "#FF8000" , 
-  "#00FF00" ,
-  "#0080FF" ,
-  "#FF0080" ,
-  "#FFFF00" ,
-  "#00FF80" ,
-  "#0000FF" ,
-  "#FF00FF" ,
+  "#E74C3C",
+  "#2E86C1",
+  "#138D75",
+  "#F1C40F",
+  "#D35400",
 
 ];
 
@@ -53,7 +44,7 @@ let spinChart = new Chart(spinWheel, {
   plugins: [ChartDataLabels],
   type: "pie",
   data: {
-    labels: ['aaaa1', 'bbbbb', 'ccccc', 'ddddd', '55555', '666666', ],
+    labels: ['SHA256', 'NON', 'RANDOM', 'SPINNER',  ],
     datasets: [
       {
         backgroundColor: spinColors,
@@ -70,8 +61,9 @@ let spinChart = new Chart(spinWheel, {
         display: false,
       },
       datalabels: {
-        rotation: 90,
-        color: "#ffffff",
+        rotation: 90, // 90
+       //  align : 45,
+        color: "#000000", // "#ffffff",
         formatter: (_, context) => context.chart.data.labels[context.dataIndex],
         font: { size: 15 },
       },
@@ -79,36 +71,97 @@ let spinChart = new Chart(spinWheel, {
   },
 });
 /* --------------- Display Value Based On The Angle --------------------- */
-const generateValue = (angleValue) => {
+const generateValue = (angleValue, listclean) => {
+  
   for (let i of spinValues) {
-    if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
-      text.innerHTML = `<p>Congratulations, You Have Won ! </p>`;
+
+
+
+    if ((angleValue >= i.minDegree && angleValue <= i.maxDegree) ||  (angleValue >= i.minDegree2 && i.minDegree < 0)) {
+      text.innerHTML =   winrez // + ' WINS!<br><br>SHA256: ' // + mysha + '<br><br>' + combome // winrez; // `<p>Congratulations, You Have Won ! </p>`;
       spinBtn.disabled = false;
+
+      if (angleValue == i.maxDegree)
+      {
+        spinChart.options.rotation  = spinChart.options.rotation  - 1
+      }
+
+      if ((angleValue == i.minDegree) || (angleValue == i.minDegree2))
+      {
+        spinChart.options.rotation  = spinChart.options.rotation  + 1
+      }
+
       break;
     }
   }
 };
 /* --------------- Spinning Code --------------------- */
 let count = 0;
-let resultValue = 101;
+let resultValue = 21 //  101;
 spinBtn.addEventListener("click", () => {
 
   spinBtn.disabled = true;
-  pickwinner(bigColors);
+  
+  results = pickwinner(bigColors);
+  // [rpick, listclean, winangle, winconst]
+
+
+  rpick = results[0]
+  wincolo = results[4]
+  listclean = results[1]
+  // alert(results[3])
+  size = results[3]
+  winrez = results[5]
+
+  // alert(size)
+  // alert(rpick)
+
+  spinValues = winangle;
+  spinColors = wincolo; 
+  spinChart.data.labels = listclean;
+  spinChart.data.datasets.backgroundColor = wincolo;
+  spinChart.data.datasets.data = size;
+  spinChart.options.rotation =  270 // 90 ; // 270;   
+  //  spinChart.options.plugins.datalabels.rotation =  0
+  // alert(spinChart.data.labels )
+  // alert(spinChart.data.datasets.data)
+  spinChart.data.datasets = [
+    {
+      backgroundColor: wincolo,
+      data: size,
+    },
+  ]
+  spinChart.update(); 
+
+
   text.innerHTML = `<p>Best Of Luck!</p>`;
-  let randomDegree = 200 /* Math.floor(Math.random() * (355 - 0 + 1) + 0); */
+  let randomDegree = rpick /* Math.floor(Math.random() * (355 - 0 + 1) + 0); */
+  if (randomDegree == 360)
+  {
+    randomDegree = 0
+  }
   let rotationInterval = window.setInterval(() => {
+
+    // spinChart.data.labels[0] = spinChart.options.rotation
     spinChart.options.rotation = spinChart.options.rotation + resultValue;
+    //spinChart.options.plugins.datalabels.rotation =    spinChart.options.plugins.datalabels.rotation + resultValue;    
     spinChart.update();
-    if (spinChart.options.rotation >= 360) {
+    if (spinChart.options.rotation > 360) {
+   // if (spinChart.options.plugins.datalabels.rotation > 360) {
       count += 1;
-      resultValue -= 5;
-      spinChart.options.rotation = 0;
-    } else if (count > 15 && spinChart.options.rotation == randomDegree) {
-      generateValue(randomDegree);
+      resultValue  -= 2;
+      if (resultValue < 1)
+      {
+        resultValue = 1
+      }
+      spinChart.options.rotation  = 0 // - 360 // 0;
+   //   spinChart.options.plugins.datalabels.rotation  =0
+    } else if (count > 11 && spinChart.options.rotation == randomDegree) {
+   // } else if (count > 12 && spinChart.options.plugins.datalabels.rotation  == randomDegree) {
+      generateValue(randomDegree, winrez);
       clearInterval(rotationInterval);
       count = 0;
-      resultValue = 101;
+      resultValue = 21 ; // = 101;
     }
   }, 10);
 });
@@ -125,17 +178,75 @@ function pickwinner(bigColors)
   
   a = (document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
   listclean = removeDuplicates(a)
-  alert(listclean)
+  // alert(listclean)
 
   b = dosha(listclean, calctime, bigColors)
-  alert(b)
-  mysha256 = b[0] 
-  myaudit=   b[1]
-  winner =   b[2]
-  winsha =   b[3]  
-  winrez =   b[4]  
-  alert(winrez) 
-  calcinfo(listclean)
+  ci = calcinfo(listclean) 
+
+  // alert(b)
+  mysha256  =   b[0]     // list of winning shas 
+  myaudit   =   b[1]   // list of values hashed
+  winner    =   b[2]   // id of winner
+  winsha    =   b[3]   // sha of the winner 
+  winrez    =   b[4]   // resulst to display for winner
+  wincolo   =   b[5]   // colors of the wheel                   -- SEND
+  winconst  =   ci[0]  // size contants used for the wheel      -- SEND
+  winangle  =   ci[1]  // angles used for the wheel             -- SEND
+
+
+
+  //while ((winangle[0].maxDegree < 90) && (1==0))
+  //{
+  //  winner = winner - 1;
+  //  if (winner < 0)
+  //  {
+  //    winner  = winconst.length - 1;
+  //  }
+  //  winangle.push(winangle.shift())
+  //  winconst.push(winconst.shift())
+  //  wincolo.push(wincolo.shift())
+  //  mysha256.push(mysha256.shift())
+  //  myaudit.push(myaudit.shift())
+  //  listclean.push(listclean.shift())
+  //}
+  //alert(listclean)
+
+ 
+
+
+  // let's pick the angle the winner gets; note this ranges between the sha of the winner som while it's a "random number"
+  // the winner is predetermined; this is just to make the wheel spins visially a bit more appealing
+
+  mydate =  new Date()
+  //alert(mydate)
+  rnum   = mydate.getMilliseconds() / 1000;
+  //alert(rnum)
+
+  rpick = Math.floor(rnum * (winangle[winner].maxDegree - winangle[winner].minDegree + 1)) + winangle[winner].minDegree;
+
+
+  //for (let i = 0; i < listclean.length; i++) {
+  //  listclean[i] = i+'.'+listclean[i]+'+'+winangle[i].minDegree+'-'+winangle[i].maxDegree+'-'+rpick
+  //}
+
+
+
+  // rpick = rpick -90 // 90
+
+  // if (rpick < 0)
+  //{
+  //  rpick = rpick + 360;
+  //}
+
+
+  // alert(rpick)
+  // alert(winangle[winner].maxDegree )
+  // alert(winangle[winner].minDegree )
+
+  // alert(winrez) 
+  // calcinfo(listclean)
+
+  return [rpick, listclean, winangle, winconst, wincolo, winrez]
 
 }
 
@@ -164,11 +275,11 @@ function dosha(todo, addsalt,bigColors)
     mysha = forge_sha256(combome)
     returner.push(mysha)
     hasher.push(combome)
-    alert(bigColors[i % bigColors.length ])
+   // alert(bigColors[i % bigColors.length ])
     if (winsha > mysha) {
       winner = i
       winsha = mysha
-      winrez = todo[i] + ' WINS!<br><br>SHA256: ' + mysha + '<br><br>' + combome
+      winrez = todo[i] + '(' + i + ') WINS!<br><br>SHA256: ' + mysha + '<br><br>' + combome
 
     }
 
@@ -184,6 +295,126 @@ function calcinfo(folks)
   /* lowest range is of 3; only up to 120 entrants */
 
 
+  angleoffset = -1
+
+  anglemin = 0
+  anglemax = 360
+  anglelen = folks.length
+  angleconstmax = 120   // max number of "wheelers"; probably ought to dial this back to no more than like 40-60
+  angleconstadd = 0
+  angleconstsum = 0
+  anglestart = 90
+
+
+
+  anglesum = anglestart // we are starting at 90 because it is flipped 270 degrees
+  anglelow = Math.floor(anglemax /  angleconstmax);
+
+
+
+
+  for (let i = 0; i < anglelen; i++) {
+
+    // always start with anglesum; subtract angesub
+    
+    firstangle = anglesum;
+
+    // alert(i)
+    // angsub is "max"
+    
+    // anglemax = angsub
+
+    //angleconstadd - sticking with the "const" in the original code; really a max of 120 participants
+
+    angleconstadd = Math.floor( (angleconstmax - angleconstsum)   / (anglelen - i))
+
+    if (angleconstadd  < 1)
+    {
+      angleconstadd = 1
+    }
+
+    if (i == (anglelen - 1)) //on the last one we make sure to fill it out entirely
+    {
+      
+      angleconstadd = angleconstmax - angleconstsum
+    }
+
+
+    // 360 degrees; currently anglow = 360 / 120 = 3  - this is what we will remove from anglemax
+
+    anglesub = angleconstadd *  anglelow; // was angleadd
+
+
+    if (anglesub  < anglelow)
+    {
+      anglesub = anglelow
+    }
+
+    //if (i == (anglelen - 1)) //on the last one we make sure to fill it out entirely
+    //{ 
+    //  anglesub = anglestart + 1 // anglemax - anglesum
+    //}  
+
+
+    angleconstsum = angleconstsum + angleconstadd      
+    anglesum = anglesum - anglesub
+
+    anglesum = anglesum + 1
+
+    anglesum2 = anglesum
+
+    if (anglesum2 <= 0)
+    {
+      anglesum2 = 360 + anglesum2
+
+    }
+
+
+
+    addme =  { minDegree: anglesum, maxDegree: firstangle, value : -1, maxDegree2  : anglesum2,}
+
+    // alert('{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', maxDegree2  : ' + anglesum2 + ',}')
+
+
+    addmeconst = angleconstadd
+
+    myconst.push(addmeconst)
+    myangles.push(addme)
+
+    if (anglesum <= 0)
+    {
+      anglesum= anglesum2
+
+    }
+
+
+
+    anglesum = anglesum - 1
+
+
+
+    // alert(addme.minDegree + ' ' + addme.maxDegree)
+    //alert(addmeconst)
+
+ 
+  }
+
+  return [myconst,  myangles]
+}
+
+
+
+
+
+function calcinfo_old(folks)
+{
+  myangles = []
+  myconst  = []
+
+  /* lowest range is of 3; only up to 120 entrants */
+
+
+  angleoffset = -1
 
   anglemin = 0
   anglemax = 360
@@ -249,8 +480,8 @@ function calcinfo(folks)
 
     anglesum = anglesum + 1
 
-    alert(addme.minDegree + ' ' + addme.maxDegree)
-    alert(addmeconst)
+    // alert(addme.minDegree + ' ' + addme.maxDegree)
+    // alert(addmeconst)
 
 
 
