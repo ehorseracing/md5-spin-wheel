@@ -217,7 +217,7 @@ spinBtn.addEventListener("click", () => {
   osize = results[2].length
 
   audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ',}'
-  // audit.innerHTML = audit.innerHTML + 'winning angle - ' + rpick + '<br>'
+  //audit.innerHTML = audit.innerHTML + 'winning angle - ' + rpick + '<br>'
   // alert(size)
   // alert(rpick)
 
@@ -291,7 +291,7 @@ spinBtn.addEventListener("click", () => {
       spinChart.options.rotation  = 0 // - 360 // 0;
    //   spinChart.options.plugins.datalabels.rotation  =0
 
-    } else if (count > 5 && spinChart.options.rotation == randomDegree) {
+    } else if (count > 5 && ((spinChart.options.rotation == randomDegree) || (spinChart.options.rotation == randomDegree + 360) || (spinChart.options.rotation == randomDegree - 360))) {
    // } else if (count > 12 && spinChart.options.plugins.datalabels.rotation  == randomDegree) {
       // alert('endnow')
       generateValue(randomDegree, winrez);
