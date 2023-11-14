@@ -27,7 +27,7 @@ var spinColors = [
 
 ];
 
-
+var ocount = 0;
 var bigColors = [
   "#CC3300", // orange 
   "#9999cc", // blue
@@ -150,7 +150,8 @@ let spinChart = new Chart(spinWheel, {
           const valuesBefore = ctx.dataset.data.slice(0, ctx.dataIndex).reduce((a, b) => a + b, 0);
           const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
           const rotation = ((valuesBefore + ctx.dataset.data[ctx.dataIndex] /2) /sum *360);
-          return rotation < 180 ? rotation-90 : rotation+90;
+          r1 =  rotation < 180 ? rotation-90 : rotation+90;
+          return r1 ; //rotation < 180 ? rotation-90 : rotation+90;
         },
         //formatter: function (value, context) {
         //    return context.chart.data.labels[context.dataIndex];
@@ -213,6 +214,8 @@ spinBtn.addEventListener("click", () => {
   // alert(results[3])
   size = results[3]
   winrez = results[5]
+  osize = results[2].length
+
   audadd = '{ minDegree: ' + anglesum + ', maxDegree: ' + firstangle+ ', minDegree2  : ' + anglesum2 + ',}'
   // audit.innerHTML = audit.innerHTML + 'winning angle - ' + rpick + '<br>'
   // alert(size)
@@ -227,7 +230,8 @@ spinBtn.addEventListener("click", () => {
   spinChart.data.datasets.borderWidth = 0;
   spinChart.data.datasets.data = size;
   spinChart.options.rotation =  270 // 90 ; // 270; 
-  // spinChart.options.plugins.datalabels.rotation = 270 + 45  
+  nsize = 21 - Math.floor(osize / 10)
+  spinChart.options.plugins.datalabels.font = { size : nsize }  
   // spinChart.options.plugins.datalabels.rotation =  spinChart.options.rotation  // 90 ; // 270;   
 
   //  spinChart.options.plugins.datalabels.rotation =  0
@@ -262,7 +266,7 @@ spinBtn.addEventListener("click", () => {
      const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
      const rotation = spinChart.options.rotation + ((valuesBefore + ctx.dataset.data[ctx.dataIndex] /2) /sum *360);
 
-     return rotation-90;
+     return rotation+90;
     };
 
 
@@ -383,7 +387,7 @@ function pickwinner(bigColors)
   winconst  =   ci[0]  // size contants used for the wheel      -- SEND
   winangle  =   ci[1]  // angles used for the wheel             -- SEND
 
-
+  ocount = b[0].length
 
   //while ((winangle[0].maxDegree < 90) && (1==0))
   //{
