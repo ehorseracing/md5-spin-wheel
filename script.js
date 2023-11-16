@@ -315,7 +315,7 @@ spinBtn.addEventListener("click", () => {
 
 function cleantextbox()
 {
-  mydata = (document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
+  mydata = (document.getElementById("entries")).value.toLowerCase().replace(/[^A-Za-z0-9'_ ]+/g, '~').trim().replaceAll(' ', '$').replaceAll('~',' ').trim().replaceAll(' ','~').replaceAll('~',',').replaceAll('$', ' ').split(',');
   
   
   return mydata;
@@ -339,14 +339,16 @@ function cleanlist()
 {
   myarray =  cleantextbox(); //(document.getElementById("entries")).value.toLowerCase().replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',').split(',');
   // myarray = myarray.split(',')
-  // alert(myarray)
+  //alert(myarray)
   myarray = removeDuplicates(myarray)
   myarray = myarray.sort()
 
   //alert(myarray)  
-  mystring = JSON.stringify(myarray).replaceAll(/[\W_]+/g, ' ').trim().replaceAll(' ',',')
-  // alert(mystring);
-  mystring =  mystring.replaceAll(',','\n');
+  mystring = JSON.stringify(myarray)
+  //alert(mystring)
+  mystring = mystring.replace(/[^A-Za-z0-9'_ ]+/g, '~').trim().replaceAll(' ', '$').replaceAll('~',' ').trim().replaceAll(' ','~').replaceAll('$', ' ').replaceAll('~',',').trim().replace(/,+$/, "")
+  //alert(mystring);
+  mystring =  mystring.trim().replace(/,+$/, "").replaceAll(',','\n');
   document.getElementById("entries").value = mystring;
   //alert(a);
   
